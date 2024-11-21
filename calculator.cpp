@@ -22,9 +22,13 @@ void opCode8(int num1, int num2);
 void castAbsoulteValue(double& num1, double& num2);
 int factorialLoop(int num1);
 int factorialRecursion(int num2);
-enum OpCodes { EXIT = 0, ADD, SUB, MUL, DIV, MOD, EXP, RANDCOMP, FACTORIAL };
+void generateArray(int intArray[], int ARSIZE, int num1);
+void compare2Array(int intArray1[], int intArray2[], int resultArray[], int ARSIZE);
+void printArray(int resultArray[], int ARSIZE);
+enum OpCodes {EXIT = 0, ADD, SUB, MUL, DIV, MOD, EXP, RANDCOMP, FACTORIAL, ARRAYCOMP};
 
 int main() {
+    const int ARSIZE = 10; //ARSIZE 상수 정의
     OpCodes opCode;
     int input;
     double num1, num2;
@@ -32,6 +36,7 @@ int main() {
 
     do
     {
+        cout << "산술 연산 선택을 위한 정수(0~9, 0:반복종료) 입력 : ";
         cin >> input;
         while (true) {
             if (EXIT <= input <= RANDCOMP) {
@@ -87,6 +92,18 @@ int main() {
             inputNum1Num2(num1, num2);
             castAbsoulteValue(num1, num2);
             opCode8(num1, num2);
+            break;
+        }
+        case ARRAYCOMP:
+        {   
+            inputNum1Num2(num1, num2);
+            int intArray1[ARSIZE] = { 0 };
+            int intArray2[ARSIZE] = { 0 };
+            int resultArray[ARSIZE] = { 0 };
+            generateArray(intArray1, ARSIZE, (int)num1);
+            generateArray(intArray2, ARSIZE, (int)num2);
+            compare2Array(intArray1, intArray2, resultArray, ARSIZE);
+            printArray(resultArray, ARSIZE);
             break;
         }
         default:
@@ -181,4 +198,38 @@ int factorialRecursion(int num2) { //재귀함수를 이용한 펙토리얼 구현
     else {
         return num2 * factorialRecursion(num2 - 1);
     }
+}
+
+void generateArray(int intArray[], int ARSIZE, int num1)
+{
+    for (int i = 0; i < ARSIZE; i++) {
+        intArray[i] = rand() % (num1 + 1);
+    }
+    for (int i = 0; i < ARSIZE; i++) {
+        cout << intArray[i] << " ";
+    }
+    cout << endl;
+}
+
+
+void compare2Array(int intArray1[], int intArray2[], int resultArray[], int ARSIZE)
+{
+    for (int i = 0; i < ARSIZE; i++) {
+        if (intArray1[i] > intArray2[i]) {
+            resultArray[i] = 1;
+        }
+        else if (intArray1[i] < intArray2[i]) {
+            resultArray[i] = 2;
+        }
+        else
+            resultArray[i] = 0;
+    }
+}
+
+void printArray(int resultArray[], int ARSIZE)
+{
+    for (int i = 0; i < ARSIZE; i++) {
+        cout << resultArray[i] << " ";
+    }
+    cout << endl;
 }
