@@ -224,6 +224,10 @@ void compare2Array(int intArray1[], int intArray2[], int resultArray[], int ARSI
         else
             resultArray[i] = 0;
     }
+    for (int i = 0; i < ARSIZE; i++) {
+        cout << resultArray[i] << " ";
+    }
+    cout << endl;
 }
 
 void printArray(int resultArray[], int ARSIZE)
