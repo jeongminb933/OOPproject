@@ -24,7 +24,7 @@ int factorialLoop(int num1);
 int factorialRecursion(int num2);
 void generateArray(int intArray[], int ARSIZE, int num1);
 void compare2Array(int intArray1[], int intArray2[], int resultArray[], int ARSIZE);
-void printArray(int resultArray[], int ARSIZE);
+
 enum OpCodes {EXIT = 0, ADD, SUB, MUL, DIV, MOD, EXP, RANDCOMP, FACTORIAL, ARRAYCOMP};
 
 int main() {
@@ -103,7 +103,7 @@ int main() {
             generateArray(intArray1, ARSIZE, (int)num1);
             generateArray(intArray2, ARSIZE, (int)num2);
             compare2Array(intArray1, intArray2, resultArray, ARSIZE);
-            printArray(resultArray, ARSIZE);
+
             break;
         }
         default:
@@ -230,10 +230,4 @@ void compare2Array(int intArray1[], int intArray2[], int resultArray[], int ARSI
     cout << endl;
 }
 
-void printArray(int resultArray[], int ARSIZE)
-{
-    for (int i = 0; i < ARSIZE; i++) {
-        cout << resultArray[i] << " ";
-    }
-    cout << endl;
-}
+
