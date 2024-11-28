@@ -48,7 +48,13 @@ int main() {
     OpCodes opCode;
     int input;
     double num1, num2;
-    cout << "정보통신공학과 12241457 박정민 과제 5입니다" << endl;
+    int intArray1[ARSIZE] = { 0 };
+    int intArray2[ARSIZE] = { 0 };
+    int resultArray[ARSIZE] = { 0 };
+    int key;
+    int low = 0;
+    int pos;
+    cout << "정보통신공학과 12241457 박정민 과제 7입니다" << endl;
 
     do
     {
@@ -85,80 +91,73 @@ int main() {
             cout << num1 << " / " << num2 << " = " << num1 / num2 << endl;
             break;
         case MOD:
-        {
+        
             inputNum1Num2(num1, num2);
             opCode5(num1, num2);
             break;
-        }
+        
         case EXP:
-        {
+        
             inputNum1Num2(num1, num2);
             opCode6(num1, num2);
             break;
-        }
+        
         case RANDCOMP:
-        {
+        
             inputNum1Num2(num1, num2);
             opCode7(num1, num2);
 
             break;
-        }
+        
         case FACTORIAL:
-        {
+        
             inputNum1Num2(num1, num2);
             castAbsoulteValue(num1, num2);
             opCode8(num1, num2);
             break;
-        }
+        
         case ARRAYCOMP:
-        {
+        
             inputNum1Num2(num1, num2);
-            int intArray1[ARSIZE] = { 0 };
-            int intArray2[ARSIZE] = { 0 };
-            int resultArray[ARSIZE] = { 0 };
             generateArray(intArray1, ARSIZE, (int)num1);
             generateArray(intArray2, ARSIZE, (int)num2);
             compare2Array(intArray1, intArray2, resultArray, ARSIZE);
 
             break;
-        }
+        
         case SEARCH:
-        {
+        
             cout << "정수를 입력하세요";
             cin >> num1;
-            int intArray1[ARSIZE] = { 0 };
-            int key;
+            num1 = (int)num1;
             cout << "랜덤 생성된 배열 " << endl;
             generateArray(intArray1, ARSIZE, (int)num1);
             cout << endl << "원하는 키 값 입력 : ";
             cin >> key;
-            int pos = linearSearch(intArray1, ARSIZE, key);
+            pos = linearSearch(intArray1, ARSIZE, key);
             if (pos == -1)
                 cout << key << "이(가) 배열에 없습니다!!" << endl;
             else
                 cout << key << "이(가) 배열의 색인 " << pos << "에 있습니다!!" << endl;
             break;
-        }
+        
         case SORT:
-        {
-            int low = 0;
             cout << "정수를 입력하세요";
             cin >> num1;
-            int key;
-            int intArray1[ARSIZE] = { 0 };
+            num1 = (int)num1;
             generateArray(intArray1, ARSIZE, (int)num1);
             insertionSort(intArray1, ARSIZE);
             cout << "정렬된 배열 " << endl;
             printArray(intArray1, ARSIZE);
             cout << endl << "원하는 키 값 입력 : ";
             cin >> key;
-            int pos = binarySearch(intArray1, low, ARSIZE, key);
+            pos = binarySearch(intArray1, low, ARSIZE, key);
             if (pos == -1)
                 cout << key << "이(가) 배열에 없습니다!!" << endl;
             else
                 cout << key << "이(가) 정렬된 배열의 색인 " << pos << "에 있습니다!!" << endl;
             break;
-        }
+        
         default:
             cout << "연산자 입력 오류" << endl;
             continue; // 이후 코드를 무시하고 상위 반복문을 다시 실행
