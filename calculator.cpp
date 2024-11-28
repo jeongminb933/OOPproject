@@ -1,18 +1,18 @@
 //과제 6 12241457 박정민
-/*후기 : 수업시간에 배열에 대해 배우고 이를 실습에 활용해 보았다. 배열은 콜 바이 레퍼런스 방식이라 
+/*후기 : 수업시간에 배열에 대해 배우고 이를 실습에 활용해 보았다. 배열은 콜 바이 레퍼런스 방식이라
 *        변수의 참조형 처럼 &을 쓰지 않고도 다른 함수에서도 값을 이어서 사용 할 수 있다는 점을 알게 되었다.
 *        그러나 opCode9를 함수로 전환해서 case ARRAYCOMP를 간략화 하려 했는데 어찌된 연유인지 상수 ARSIZE가
 *        제대로 인식이 되지 않았다. 이를 인터넷에 검색해보니 배열을 동적배열로 변환해서 코드를 짜란 조언을 얻었다...
 *        이 문제에 관해서 추후 교수님에게 문의해 봐야겠단 생각을 가지게 되었다.
         */
 
-/*
-    함수 호출에 배열을 전달하는 과정
-    1. 함수 호출 시 배열 이름을 넘기면, 배열의 시작 위치가 함수로 전달됨
-    2. 배열 크기를 함수의 다른 매개변수로 함께 전달해 배열의 끝을 알 수 있도록 함
-    3. 함수 내부에서 전달받은 배열은 원래 배열과 연결되어있어(Call by reference 방식) 함수 내부에서
-    배열 요소를 수정하면 원래 배열에도 반영됨.
-*/
+        /*
+            함수 호출에 배열을 전달하는 과정
+            1. 함수 호출 시 배열 이름을 넘기면, 배열의 시작 위치가 함수로 전달됨
+            2. 배열 크기를 함수의 다른 매개변수로 함께 전달해 배열의 끝을 알 수 있도록 함
+            3. 함수 내부에서 전달받은 배열은 원래 배열과 연결되어있어(Call by reference 방식) 함수 내부에서
+            배열 요소를 수정하면 원래 배열에도 반영됨.
+        */
 #include <iostream>
 #include <cmath> //pow() 함수 쓰기위해 전처리과정에서 cmath 헤더파일 불러옴
 #include <cstdlib> //rand() 함수 쓰기 위해 전처리과정에서 cstdlib 헤더파일 불러옴
@@ -36,8 +36,12 @@ int factorialLoop(int num1);
 int factorialRecursion(int num2);
 void generateArray(int intArray[], int ARSIZE, int num1);
 void compare2Array(int intArray1[], int intArray2[], int resultArray[], int ARSIZE);
+int linearSearch(int intArray1[], int ARSIZE, int key);
+int binarySearch(int intArray1[], int low, int ARSIZE, int key);
+void insertionSort(int intArray1[], int ARSIZE); //반환타입을 int[]로 하려 하였으나 안됨;
+void printArray(int intArray1[], int ARSIZE);
 
-enum OpCodes {EXIT = 0, ADD, SUB, MUL, DIV, MOD, EXP, RANDCOMP, FACTORIAL, ARRAYCOMP};
+enum OpCodes { EXIT = 0, ADD, SUB, MUL, DIV, MOD, EXP, RANDCOMP, FACTORIAL, ARRAYCOMP, SEARCH, SORT };
 
 int main() {
     const int ARSIZE = 10; //ARSIZE 상수 정의
@@ -48,7 +52,7 @@ int main() {
 
     do
     {
-        cout << "산술 연산 선택을 위한 정수(0~9, 0:반복종료) 입력 : ";
+        cout << "산술 연산 선택을 위한 정수(0~11, 0:반복종료) 입력 : ";
         cin >> input;
         while (true) {
             if (EXIT <= input <= RANDCOMP) {
@@ -107,7 +111,7 @@ int main() {
             break;
         }
         case ARRAYCOMP:
-        {   
+        {
             inputNum1Num2(num1, num2);
             int intArray1[ARSIZE] = { 0 };
             int intArray2[ARSIZE] = { 0 };
@@ -116,6 +120,43 @@ int main() {
             generateArray(intArray2, ARSIZE, (int)num2);
             compare2Array(intArray1, intArray2, resultArray, ARSIZE);
 
+            break;
+        }
+        case SEARCH:
+        {
+            cout << "정수를 입력하세요";
+            cin >> num1;
+            int intArray1[ARSIZE] = { 0 };
+            int key;
+            cout << "랜덤 생성된 배열 " << endl;
+            generateArray(intArray1, ARSIZE, (int)num1);
+            cout << endl << "원하는 키 값 입력 : ";
+            cin >> key;
+            int pos = linearSearch(intArray1, ARSIZE, key);
+            if (pos == -1)
+                cout << key << "이(가) 배열에 없습니다!!" << endl;
+            else
+                cout << key << "이(가) 배열의 색인 " << pos << "에 있습니다!!" << endl;
+            break;
+        }
+        case SORT:
+        {
+            int low = 0;
+            cout << "정수를 입력하세요";
+            cin >> num1;
+            int key;
+            int intArray1[ARSIZE] = { 0 };
+            generateArray(intArray1, ARSIZE, (int)num1);
+            insertionSort(intArray1, ARSIZE);
+            cout << "정렬된 배열 " << endl;
+            printArray(intArray1, ARSIZE);
+            cout << endl << "원하는 키 값 입력 : ";
+            cin >> key;
+            int pos = binarySearch(intArray1, low, ARSIZE, key);
+            if (pos == -1)
+                cout << key << "이(가) 배열에 없습니다!!" << endl;
+            else
+                cout << key << "이(가) 정렬된 배열의 색인 " << pos << "에 있습니다!!" << endl;
             break;
         }
         default:
@@ -242,4 +283,49 @@ void compare2Array(int intArray1[], int intArray2[], int resultArray[], int ARSI
     cout << endl;
 }
 
+void insertionSort(int intArray1[], int ARSIZE) {
+    int insert;
+    for (int i = 1; i < ARSIZE; i++) {
+        insert = intArray1[i];
+        int moveItem = i;
+        while ((moveItem > 0) && (intArray1[moveItem - 1] > insert)) {
+            intArray1[moveItem] = intArray1[moveItem - 1];
+            moveItem--;
+        }
+        intArray1[moveItem] = insert;
+    }
+}
 
+void printArray(int intArray1[], int ARSIZE)
+{
+    for (int i = 0; i < ARSIZE; i++) {
+        cout << intArray1[i] << " ";
+    }
+    cout << endl;
+    
+}
+
+int linearSearch(int intArray1[], int ARSIZE, int key) {
+    for (int i = 0; i < ARSIZE; i++) {
+        if (intArray1[i] == key)
+            return i;
+    }
+    return -1;
+}
+
+int binarySearch(int intArray1[], int low , int ARSIZE, int key) {
+    int high = ARSIZE - 1;
+    while (low <= high) {
+        int mid = (low + high) / 2;
+        if (intArray1[mid] == key) {
+            return mid;
+        }
+        else if (intArray1[mid] < key) {
+            low = mid + 1;
+        }
+        else {
+            high = mid - 1;
+        }
+    }
+    return -1;
+}
