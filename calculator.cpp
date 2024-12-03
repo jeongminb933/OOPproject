@@ -1,17 +1,22 @@
 //과제 6 12241457 박정민
-/*후기 : 수업시간에 배열에 대해 배우고 이를 실습에 활용해 보았다. 배열은 콜 바이 레퍼런스 방식이라
-*        변수의 참조형 처럼 &을 쓰지 않고도 다른 함수에서도 값을 이어서 사용 할 수 있다는 점을 알게 되었다.
-*        그러나 opCode9를 함수로 전환해서 case ARRAYCOMP를 간략화 하려 했는데 어찌된 연유인지 상수 ARSIZE가
-*        제대로 인식이 되지 않았다. 이를 인터넷에 검색해보니 배열을 동적배열로 변환해서 코드를 짜란 조언을 얻었다...
-*        이 문제에 관해서 추후 교수님에게 문의해 봐야겠단 생각을 가지게 되었다.
-        */
+/*후기 : 그동안 switch문의 case 부분을 중괄호를 이용해 작성하였는데 교수님의 조언을 받아 이게 잘못된 습관임을 알게 되었다
+        본래 중괄호를 case문에 쓴 이유는 case안에서 중괄호를 써야 그 안에서 변수 선언이 가능하기에 사용하곤 했는데 그렇게 하는
+        것 보다 변수를 바깥에서 선언하고 선언한 변수를 case문 안에 가져다 쓰는것이 다른이로 하여금 더 이해하기 쉽기에 중괄호를 지우고
+        코드를 다시 짜보았다. 또한 선형탐색, 이진탐색, 삽입정렬의 알고리즘을 이해하고 직접 코드로 써보며 이에 대해 더 자세히
+        알 수 있었다.*/
 
+//설명문
         /*
-            함수 호출에 배열을 전달하는 과정
-            1. 함수 호출 시 배열 이름을 넘기면, 배열의 시작 위치가 함수로 전달됨
-            2. 배열 크기를 함수의 다른 매개변수로 함께 전달해 배열의 끝을 알 수 있도록 함
-            3. 함수 내부에서 전달받은 배열은 원래 배열과 연결되어있어(Call by reference 방식) 함수 내부에서
-            배열 요소를 수정하면 원래 배열에도 반영됨.
+        * 1.
+            선형탐색은 배열의 첫 번째 요소부터 순차적으로 하나씩 비교하여 원하는 값을 찾는 방식이지만
+            이진탐색은 배열이 정렬된 후 사용 가능한 탐색 방법으로, 중간 요소를 기준으로 탐색범위를 반씩
+            줄여가며 찾는 방식이다.
+            선형탐색은 시간복잡도가 O(n)이지만 이진탐색은 시간복잡도가 O(log n)이다.
+
+          2.
+            삽입정렬은 배열을 점차 정렬하는 방식으로, 정렬되지 않은 요소를 하나씩 꺼내 이미 정렬된 부분에 적절한
+            위치에 삽입하는 알고리즘이다. 
+           
         */
 #include <iostream>
 #include <cmath> //pow() 함수 쓰기위해 전처리과정에서 cmath 헤더파일 불러옴
@@ -252,7 +257,7 @@ int factorialRecursion(int num2) { //재귀함수를 이용한 펙토리얼 구현
     }
 }
 
-void generateArray(int intArray[], int ARSIZE, int num1)
+void generateArray(int intArray[], int ARSIZE, int num1) //10크기의 랜덤 정수 가진 배열 생성하는 함수
 {
     for (int i = 0; i < ARSIZE; i++) {
         intArray[i] = rand() % (num1 + 1);
@@ -264,7 +269,7 @@ void generateArray(int intArray[], int ARSIZE, int num1)
 }
 
 
-void compare2Array(int intArray1[], int intArray2[], int resultArray[], int ARSIZE)
+void compare2Array(int intArray1[], int intArray2[], int resultArray[], int ARSIZE)  //두 배열을 비교하는 함수
 {
     for (int i = 0; i < ARSIZE; i++) {
         if (intArray1[i] > intArray2[i]) {
@@ -276,13 +281,13 @@ void compare2Array(int intArray1[], int intArray2[], int resultArray[], int ARSI
         else
             resultArray[i] = 0;
     }
-    for (int i = 0; i < ARSIZE; i++) {
+    for (int i = 0; i < ARSIZE; i++) { //배열 출력하는 함수
         cout << resultArray[i] << " ";
     }
     cout << endl;
 }
 
-void insertionSort(int intArray1[], int ARSIZE) {
+void insertionSort(int intArray1[], int ARSIZE) { 
     int insert;
     for (int i = 1; i < ARSIZE; i++) {
         insert = intArray1[i];
@@ -295,7 +300,7 @@ void insertionSort(int intArray1[], int ARSIZE) {
     }
 }
 
-void printArray(int intArray1[], int ARSIZE)
+void printArray(int intArray1[], int ARSIZE) //배열을 출력하는 코드
 {
     for (int i = 0; i < ARSIZE; i++) {
         cout << intArray1[i] << " ";
@@ -304,7 +309,7 @@ void printArray(int intArray1[], int ARSIZE)
     
 }
 
-int linearSearch(int intArray1[], int ARSIZE, int key) {
+int linearSearch(int intArray1[], int ARSIZE, int key) { //배열 선형탐색 코드
     for (int i = 0; i < ARSIZE; i++) {
         if (intArray1[i] == key)
             return i;
@@ -312,7 +317,7 @@ int linearSearch(int intArray1[], int ARSIZE, int key) {
     return -1;
 }
 
-int binarySearch(int intArray1[], int low , int ARSIZE, int key) {
+int binarySearch(int intArray1[], int low , int ARSIZE, int key) { //배열 이진탐색 코드
     int high = ARSIZE - 1;
     while (low <= high) {
         int mid = (low + high) / 2;
